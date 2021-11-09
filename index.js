@@ -35,25 +35,22 @@ app.use('/seller', seller);
 app.use('/buyer', buyer);
 
 
-// var server_port = process.env.MY_PORT || process.env.PORT || 3279;
-// var server_port = process.env.PORT;
-// var server_host = process.env.MY_HOST || process.env.HOST  || '0.0.0.0';
+var server_port = process.env.MY_PORT || process.env.PORT || 3279;
+var server_port = process.env.PORT;
+var server_host = process.env.MY_HOST || process.env.HOST  || '0.0.0.0';
 
 // For running sever localy
 
-app.listen(3004 ,()=>{
-    console.log(`Sever is running on port ${3004}`);
-});
+// app.listen(3004 ,()=>{
+//     console.log(`Sever is running on port ${3004}`);
+// });
 
 
 // For Running server online.
 
-// app.listen(server_port, server_host ,()=>{
-//     console.log(`Sever is running in ${process.env.NODE_ENV} mode on port : ${server_port}`);
-// });
-
-
-
+app.listen(server_port, server_host ,()=>{
+    console.log(`Sever is running in ${process.env.NODE_ENV} mode on port : ${server_port}`);
+});
 
 /* 
     change server port code in index js,
