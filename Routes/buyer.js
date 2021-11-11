@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const connectionRequest =  require('../config/database_config');
-connectDB = connectionRequest();
 
 
 //// seller reg and login validation
@@ -20,7 +19,7 @@ router.post('/register', async (req, res) => {
         const {error} = buyerRegisterValidation(req.body);
         if (error) return res.status(400).json({message: error.details[0].message});
 
-
+        connectDB = connectionRequest();
         // ----------------- Check if App already in DB ------------------
         let find_query = `SELECT * FROM Buyers WHERE email = '${req.body.email}' OR name = '${req.body.name}';`;
         connectDB.query(find_query, async (err, result) => {
@@ -78,7 +77,7 @@ router.post('/login', async  (req, res) => {
     const {error} = buyerLoginValidation(req.body);
     if (error) return res.status(400).json({success: 0, error:  'Invalid Email or Password'});
 
-
+    connectDB = connectionRequest();
     // ----------------- Check if email exists ------------------
     let find_query = `SELECT * FROM buyers WHERE email = '${req.body.email_username}' OR name = '${req.body.email_username}';`;
     connectDB.query(find_query, async (err, result) => {
@@ -108,7 +107,7 @@ router.post('/login', async  (req, res) => {
 
 router.get('/profile', (req, res) => {
     let find_query = `SELECT * FROM Buyers WHERE id = '${req.query.id}';`;
-
+    connectDB = connectionRequest();
     connectDB.query(find_query, (err, result) => {
         if (err) return res.status(400).json({success: 0,error: err.message});
         else if(result.length > 0)
@@ -135,7 +134,7 @@ router.get('/profile', (req, res) => {
 
 router.get('/orders', (req, res) => {
     let find_query = `SELECT * FROM Orders WHERE buyer_id = '${req.query.id}';`;
-
+    connectDB = connectionRequest();
     connectDB.query(find_query, (err, result) => {
         if (err) return res.status(400).json({success: 0,error: err.message});
 
