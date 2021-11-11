@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const connectionRequest =  require('../config/database_config');
-connectDB = connectionRequest();
 
 //// seller reg and login validation
 const {sellerRegisterValidation} = require('../Validations/validation');
@@ -19,6 +18,7 @@ router.post('/register', async (req, res) => {
         const {error} = sellerRegisterValidation(req.body);
         if (error) return res.status(400).json({message: error.details[0].message});
 
+        connectDB = connectionRequest();
         // ----------------- Check if Seller already register -----------------
         let find_query = `SELECT * FROM Sellers WHERE email = '${req.body.email}' OR name =  '${req.body.name}';`;
 
@@ -81,7 +81,7 @@ router.post('/login', async  (req, res) => {
     const {error} = sellerLoginValidation(req.body);
     if (error) return res.status(400).json({success: 0, error:  'Invalid Email or Password'});
 
-
+    connectDB = connectionRequest();
     // ----------------- Check if email exists ------------------
     let find_query = `SELECT * FROM Sellers WHERE email = '${req.body.email_username}' OR name = '${req.body.email_username}';`;
     connectDB.query(find_query, async (err, result) => {
@@ -110,6 +110,7 @@ router.post('/login', async  (req, res) => {
 
 
 router.get('/profile', (req, res) => {
+    connectDB = connectionRequest();
     let find_query = `SELECT * FROM Sellers WHERE id = '${req.query.id}';`;
 
     connectDB.query(find_query, (err, result) => {
@@ -141,6 +142,7 @@ router.get('/profile', (req, res) => {
 
 
 router.get('/products', (req, res) => {
+    connectDB = connectionRequest();
     let find_query = `SELECT * FROM Products WHERE seller_id = '${req.query.id}';`;
 
     connectDB.query(find_query, (err, result) => {
@@ -159,6 +161,7 @@ router.get('/products', (req, res) => {
 
 
 router.get('/orders', (req, res) => {
+    connectDB = connectionRequest();
     let find_query = `SELECT * FROM Orders WHERE seller_id = '${req.query.id}';`;
 
     connectDB.query(find_query, (err, result) => {
