@@ -41,8 +41,8 @@ var server_host = process.env.MY_HOST || process.env.HOST  || '0.0.0.0';
 
 // For running sever localy
 
-// app.listen(3004 ,()=>{
-//     console.log(`Sever is running on port ${3004}`);
+// app.listen(3000 ,()=>{
+//     console.log(`Sever is running on port ${3000}`);
 // });
 
 

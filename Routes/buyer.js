@@ -1,5 +1,7 @@
 const router = require('express').Router();
-const connectDB =  require('../config/database_config');
+const connectionRequest =  require('../config/database_config');
+connectDB = connectionRequest();
+
 
 //// seller reg and login validation
 const {buyerRegisterValidation} = require('../Validations/validation');
@@ -20,7 +22,7 @@ router.post('/register', async (req, res) => {
 
 
         // ----------------- Check if App already in DB ------------------
-        let find_query = `SELECT * FROM buyers WHERE email = '${req.body.email}' OR name = '${req.body.name}';`;
+        let find_query = `SELECT * FROM Buyers WHERE email = '${req.body.email}' OR name = '${req.body.name}';`;
         connectDB.query(find_query, async (err, result) => {
             if(err) return res.status(400).json({success: 0,error: err.message});
 
@@ -38,7 +40,7 @@ router.post('/register', async (req, res) => {
                 let status = "ok";
                 let reason = "";
                 
-                let reg_query = `INSERT INTO buyers (name, email, password, phone, address, city, status, gender, reason, image_path) 
+                let reg_query = `INSERT INTO Buyers (name, email, password, phone, address, city, status, gender, reason, image_path) 
                                  VALUES ('${req.body.name}', '${req.body.email}', '${req.body.password}', '${req.body.phone}',   
                                           '${req.body.address}', '${req.body.city}', '${status}', 
                                           '${req.body.gender}','${reason}','${req.body.image_path}');`;
@@ -105,7 +107,7 @@ router.post('/login', async  (req, res) => {
 
 
 router.get('/profile', (req, res) => {
-    let find_query = `SELECT * FROM buyers WHERE id = '${req.query.id}';`;
+    let find_query = `SELECT * FROM Buyers WHERE id = '${req.query.id}';`;
 
     connectDB.query(find_query, (err, result) => {
         if (err) return res.status(400).json({success: 0,error: err.message});
@@ -132,7 +134,7 @@ router.get('/profile', (req, res) => {
 
 
 router.get('/orders', (req, res) => {
-    let find_query = `SELECT * FROM orders WHERE buyer_id = '${req.query.id}';`;
+    let find_query = `SELECT * FROM Orders WHERE buyer_id = '${req.query.id}';`;
 
     connectDB.query(find_query, (err, result) => {
         if (err) return res.status(400).json({success: 0,error: err.message});
