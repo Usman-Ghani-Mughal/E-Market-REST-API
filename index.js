@@ -11,8 +11,8 @@ const app = express();
 dotenv.config();
 
 // create connection with db
-const connectionRequest =  require('../config/database_config');
-connectDB = connectionRequest();
+// const connectionRequest =  require('../config/database_config');
+// connectDB = connectionRequest();
 
 // Logging
 if (process.env.NODE_ENV === 'development'){
