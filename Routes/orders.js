@@ -14,20 +14,20 @@ router.get('/', (req, res) => {
         let find_query = `SELECT * FROM Orders`;
 
         connectDB.query(find_query, (err, result) => {
-            if (err) return res.status(400).json({success: 0,error: err.message});
+            if (err) return res.status(400).json({Success: 0,Error: err.message});
     
             else if(result.length > 0){
-                return res.status(200).json({success:1, data: result});
+                return res.status(200).json({Success:1, data: result});
             } 
     
-            else{ res.status(400).json({success: 0,error: "no order found"});}
+            else{ res.status(400).json({Success: 0,Error: "no order found"});}
         } );
     }
     catch(err)
     {
         res.status(500).json({
-            success: 0,
-            description: err.message
+            Success: 0,
+            Error: err.message
         });
     }
 });
@@ -40,19 +40,19 @@ router.get('/:id', (req, res) => {
         let find_query = `SELECT * FROM Orders WHERE id = '${req.parms.id}';`;
 
         connectDB.query(find_query, (err, result) => {
-            if (err) return res.status(400).json({success: 0,error: err.message});
+            if (err) return res.status(400).json({Success: 0,Error: err.message});
     
             else if(result.length > 0){
-                return res.status(200).json({success:1, data: result});
+                return res.status(200).json({Success:1, data: result});
             } 
     
-            else{ res.status(400).json({success: 0,error: "no order found"});}
+            else{ res.status(400).json({Success: 0,Error: "no order found"});}
         } );
 
     }catch(err){
         res.status(500).json({
-            success: 0,
-            description: err.message
+            Success: 0,
+            Error: err.message
         });
     }
 });

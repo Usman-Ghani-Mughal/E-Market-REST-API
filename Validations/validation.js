@@ -62,8 +62,26 @@ const buyerLoginValidation = (data) =>{
 }
 
 
+
+// Seller Products Register Validation
+const sellerProductRegisterValidation = (data) =>{
+    // set scheme
+    const validateSellerschema = Joi.object().keys({
+        name: Joi.string().max(255).required(),
+        type: Joi.string().max(255).required(),
+        price : Joi.number().required(),
+        quantity : Joi.number().required(),
+        seller_id : Joi.number().required(),
+        image_path: Joi.string()
+        });    
+    
+    return validateSellerschema.validate(data);
+}
+
  module.exports.sellerRegisterValidation = sellerRegisterValidation; 
  module.exports.sellerLoginValidation = sellerLoginValidation;
 
  module.exports.buyerRegisterValidation = buyerRegisterValidation; 
  module.exports.buyerLoginValidation = buyerLoginValidation;
+
+ module.exports.sellerProductRegisterValidation = sellerProductRegisterValidation; 
