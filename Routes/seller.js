@@ -9,6 +9,7 @@ const bcrypt = require('bcryptjs');
 // const verifyToken = require('../Validation/verifyToken');
 //const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
+const verifyToken = require('../Validations/verifyToken');
 dotenv.config();  
 
 // Register Route

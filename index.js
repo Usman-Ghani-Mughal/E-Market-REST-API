@@ -26,6 +26,10 @@ dotenv.config();
 // Import register route
 const seller = require('./Routes/seller');
 const buyer = require('./Routes/buyer');
+const product = require('./Routes/products');
+const order = require('./Routes/orders');
+
+
 // Middleware (body parser for json)
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
@@ -34,6 +38,8 @@ app.use(cors());
 // Route Middlewares
 app.use('/seller', seller);
 app.use('/buyer', buyer);
+app.use('/product', product);
+app.use('/order', order);
 
 
 var server_port = process.env.MY_PORT || process.env.PORT || 3279;
