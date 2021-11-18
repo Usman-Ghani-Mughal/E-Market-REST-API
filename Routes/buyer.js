@@ -74,18 +74,18 @@ router.post('/login', async  (req, res) => {
 
     try{
 
-        // ----------------  Validate data -------------------
+        // ----------------  Validate data ------------------------- //
         const {error} = buyerLoginValidation(req.body);
         if (error) return res.status(400).json({Success: 0, Error:  'Invalid Email or Password'});
 
         connectDB = connectionRequest();
-        // ----------------- Check if email exists ------------------
-        let find_query = `SELECT * FROM buyers WHERE email = '${req.body.email_username}' OR name = '${req.body.email_username}';`;
+        // ----------------- Check if email exists ------------------ //
+        let find_query = `SELECT * FROM Buyers WHERE email = '${req.body.email_username}' OR name = '${req.body.email_username}';`;
         connectDB.query(find_query, async (err, result) => {
             if(err){return res.status(200).json({Success: 0,Error: err.message});}
 
             else if(result.length > 0){
-                // ----------------- Check if password matched  ------------------
+                // ----------------- Check if password matched  ----- //
                 result = result[0];
                 const validpass = await bcrypt.compare(req.body.password, result.password);
                 if (!validpass) return res.status(400).json( {Success: 0, Error: 'Invalid Email or Password'});
