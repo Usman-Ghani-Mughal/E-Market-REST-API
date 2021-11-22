@@ -31,6 +31,7 @@ const order = require('./Routes/orders');
 
 
 // Middleware (body parser for json)
+app.use('/images', express.static('images'));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cors());

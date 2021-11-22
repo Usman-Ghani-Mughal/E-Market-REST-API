@@ -10,11 +10,42 @@ const bcrypt = require('bcryptjs');
 //const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const verifyToken = require('../Validations/verifyToken');
-dotenv.config();  
+dotenv.config();
+
+// for uploding files.
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb){
+        cb(null, './images/');
+    },
+    filename: function(req, file, cb){
+        cb(null, new Date().toISOString() + file.originalname);
+    }
+});
+
+const fileFilter = (req, file, cb) =>{
+    if(file.mimetype === 'image/jpeg' || file.mimetype === 'image/png'){
+        cb(null, true);
+    }else{
+        cb(new Error('file size or type is not valid'),false);
+    }
+}
+
+const upload = multer({
+    storage: storage, 
+    limits: {
+        fileSize: 1024 * 1024 * 5
+    },
+    fileFilter: fileFilter
+});
+
+
 
 // Register Route
-router.post('/register', async (req, res) => {
+router.post('/register', upload.single('image') ,async (req, res) => {
     try {
+        console.log(req.file);
          // ----------------  Validate data -------------------
         const {error} = sellerRegisterValidation(req.body);
         if (error) return res.status(400).json({Success: 0, Error: error.details[0].message});
@@ -43,7 +74,7 @@ router.post('/register', async (req, res) => {
                 let reg_query = `INSERT INTO Sellers (name, email, password, phone, shop_name, shop_type, shop_details, address, city, gender, image_path, status, reason) 
                                 VALUES ( '${req.body.name}', '${req.body.email}', '${req.body.password}', '${req.body.phone}', 
                                         '${req.body.shop_name}', '${req.body.shop_type}', '${req.body.shop_details}', 
-                                        '${req.body.address}', '${req.body.city}', '${req.body.gender}', '${req.body.image_path}', 
+                                        '${req.body.address}', '${req.body.city}', '${req.body.gender}', '${req.file.path}', 
                                         '${status}', '${reason}'); `;
 
                 connectDB.query(reg_query, (err, result) => {
@@ -77,19 +108,18 @@ router.post('/register', async (req, res) => {
 // Login Route
 router.post('/login', async  (req, res) => {
     try{
-
-        // ----------------  Validate data -------------------
+        // ----------------  Validate data ------------------------- //
         const {error} = sellerLoginValidation(req.body);
         if (error) return res.status(400).json({Success: 0, Error:  'Invalid Email or Password'});
 
         connectDB = connectionRequest();
-        // ----------------- Check if email exists ------------------
+        // ----------------- Check if email exists ------------------ //
         let find_query = `SELECT * FROM Sellers WHERE email = '${req.body.email_username}' OR name = '${req.body.email_username}';`;
         connectDB.query(find_query, async (err, result) => {
             if(err){return res.status(200).json({Success: 0,Error: err.message});}
 
             else if(result.length > 0){
-                // ----------------- Check if password matched  ------------------
+                // ----------------- Check if password matched  ------ //
                 result = result[0];
                 const validpass = await bcrypt.compare(req.body.password, result.password);
                 if (!validpass) return res.status(400).json( {Success: 0, Error: 'Invalid Email or Password'});
