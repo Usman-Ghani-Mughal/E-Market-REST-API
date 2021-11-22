@@ -43,7 +43,7 @@ const upload = multer({
 
 
 // Register Route
-router.post('/register', upload.single('image') ,async (req, res) => {
+router.post('/register', upload.single('image_path') ,async (req, res) => {
     try {
         console.log(req.file);
          // ----------------  Validate data -------------------
@@ -74,7 +74,7 @@ router.post('/register', upload.single('image') ,async (req, res) => {
                 let reg_query = `INSERT INTO Sellers (name, email, password, phone, shop_name, shop_type, shop_details, address, city, gender, image_path, status, reason) 
                                 VALUES ( '${req.body.name}', '${req.body.email}', '${req.body.password}', '${req.body.phone}', 
                                         '${req.body.shop_name}', '${req.body.shop_type}', '${req.body.shop_details}', 
-                                        '${req.body.address}', '${req.body.city}', '${req.body.gender}', '${req.file.path}', 
+                                        '${req.body.address}', '${req.body.city}', '${req.body.gender}', '${"https://e-market-rest-api.herokuapp.com/" + req.file.path}', 
                                         '${status}', '${reason}'); `;
 
                 connectDB.query(reg_query, (err, result) => {
@@ -169,7 +169,7 @@ router.get('/profile', (req, res) => {
                     shop_type : result.shop_type,
                     city : result.city,
                     gender : result.gender,
-                    image_path : "https://e-market-rest-api.herokuapp.com/" + result.image_path,
+                    image_path : result.image_path,
                     shop_details : result.shop_details,
                     address : result.address
                 }
