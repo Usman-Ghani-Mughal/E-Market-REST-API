@@ -169,7 +169,7 @@ router.get('/profile', (req, res) => {
                     shop_type : result.shop_type,
                     city : result.city,
                     gender : result.gender,
-                    image_path : result.image_path,
+                    image_path : "https://e-market-rest-api.herokuapp.com/" + result.image_path,
                     shop_details : result.shop_details,
                     address : result.address
                 }
