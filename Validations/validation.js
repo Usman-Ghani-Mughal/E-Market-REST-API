@@ -90,7 +90,7 @@ const orderPlaceValidation = (data) =>{
         amount: Joi.number().required()
         });    
     
-    return validateSellerschema.validate(data);
+    return validateOrderschema.validate(data);
 }
 
  module.exports.sellerRegisterValidation = sellerRegisterValidation; 
