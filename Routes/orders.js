@@ -32,7 +32,7 @@ router.post('/place', async (req, res) => {
             else
             {
                 // ----------------- Check if Product id and seller id is valid -----------------
-                let find_query_ps = `SELECT * FROM Products WHERE product_id = '${req.body.product_id}' AND seller_id =  '${req.body.seller_id}';`;
+                let find_query_ps = `SELECT * FROM Products WHERE id = '${req.body.product_id}' AND seller_id =  '${req.body.seller_id}';`;
                 
                 connectDB.query(find_query_ps, async (err, result) => {
                     if(err){
