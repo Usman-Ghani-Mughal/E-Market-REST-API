@@ -44,7 +44,11 @@ router.post('/place', async (req, res) => {
                     else{
                         // --- check if price and quantity is valid
                         let actual_price = result.price * req.body.quantity;
-                        if (actual_price === req.body.amount && result.quantity >= req.body.quantity)
+                        
+                        console.log(actual_price);
+                        console.log(req.body.amount);
+
+                        if (actual_price == req.body.amount && result.quantity >= req.body.quantity)
                         {
                             // update value in products table
                             let update_query = `UPDATE Products SET  quantity = '${result.quantity - req.body.quantity}' WHERE id = '${req.body.product_id}';`;
