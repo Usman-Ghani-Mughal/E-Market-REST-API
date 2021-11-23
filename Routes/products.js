@@ -1,8 +1,7 @@
 const router = require('express').Router();
 const connectionRequest =  require('../config/database_config');
-// var dateTime = require('node-datetime');
 
-//// seller Product reg validation
+// seller Product reg validation
 const {sellerProductRegisterValidation} = require('../Validations/validation');
 
 // for uploding files.

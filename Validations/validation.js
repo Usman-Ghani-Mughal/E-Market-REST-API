@@ -78,6 +78,21 @@ const sellerProductRegisterValidation = (data) =>{
     return validateSellerschema.validate(data);
 }
 
+// Order Place Validation
+const orderPlaceValidation = (data) =>{
+    // set scheme
+    const validateOrderschema = Joi.object().keys({
+
+        product_id: Joi.number().required(),
+        seller_id: Joi.number().required(),
+        buyer_id: Joi.number().required(),
+        quantity: Joi.number().required(),
+        amount: Joi.number().required()
+        });    
+    
+    return validateSellerschema.validate(data);
+}
+
  module.exports.sellerRegisterValidation = sellerRegisterValidation; 
  module.exports.sellerLoginValidation = sellerLoginValidation;
 
@@ -85,3 +100,6 @@ const sellerProductRegisterValidation = (data) =>{
  module.exports.buyerLoginValidation = buyerLoginValidation;
 
  module.exports.sellerProductRegisterValidation = sellerProductRegisterValidation; 
+
+ module.exports.orderPlaceValidation = orderPlaceValidation; 
+
