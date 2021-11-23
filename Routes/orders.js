@@ -43,6 +43,7 @@ router.post('/place', async (req, res) => {
                     }
                     else{
                         // --- check if price and quantity is valid
+                        result = result[0];
                         let actual_price = result.price * req.body.quantity;
                         
                         console.log(actual_price);
