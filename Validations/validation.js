@@ -87,7 +87,8 @@ const orderPlaceValidation = (data) =>{
         seller_id: Joi.number().required(),
         buyer_id: Joi.number().required(),
         quantity: Joi.number().required(),
-        amount: Joi.number().required()
+        amount: Joi.number().required(),
+        order_description: Joi.string()
         });    
     
     return validateOrderschema.validate(data);
