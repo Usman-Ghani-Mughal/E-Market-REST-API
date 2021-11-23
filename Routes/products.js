@@ -31,8 +31,8 @@ router.post('/register', upload.single('image_path') ,async (req, res) => {
                 let status = "ok";
                 let reason = "";
                 let description = req.body.description || "";
-                
-                // For today date.
+
+                // --------- For mysql today date.
                 var isoDateString = new Date().toISOString();
                 const isoDate = new Date(isoDateString);
                 const today_date = isoDate.toJSON().slice(0, 19).replace('T', ' ');
