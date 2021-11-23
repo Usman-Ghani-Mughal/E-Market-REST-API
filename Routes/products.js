@@ -5,9 +5,11 @@ const connectionRequest =  require('../config/database_config');
 //// seller Product reg validation
 const {sellerProductRegisterValidation} = require('../Validations/validation');
 
+// for uploding files.
+const upload = require("../Middleware/uploadimage");
 
 // Register Route
-router.post('/register', async (req, res) => {
+router.post('/register', upload.single('image_path') ,async (req, res) => {
     try {
          // ----------------  Validate data -------------------
         const {error} = sellerProductRegisterValidation(req.body);
@@ -35,7 +37,7 @@ router.post('/register', async (req, res) => {
                  // // ----------------- Register Product ------------------
                 let reg_query = `INSERT INTO Products (name, type, price, quantity, description, seller_id, status, reason, publish_date, image_path) 
                                 VALUES ( '${req.body.name}', '${req.body.type}', '${req.body.price}', '${req.body.quantity}', '${description}', 
-                                         '${req.body.seller_id}', '${status}', '${reason}', '${today_date}', '${req.body.image_path}' ); `;
+                                         '${req.body.seller_id}', '${status}', '${reason}', '${today_date}', '${"https://e-market-rest-api.herokuapp.com/" + req.file.path}' ); `;
 
                 connectDB.query(reg_query, (err, result) => {
                     if (err)

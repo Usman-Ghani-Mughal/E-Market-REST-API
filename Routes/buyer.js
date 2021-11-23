@@ -12,8 +12,11 @@ const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
 dotenv.config();  
 
+// for uploding files.
+const upload = require("../Middleware/uploadimage");
+
 // Register Route
-router.post('/register', async (req, res) => {
+router.post('/register', upload.single('image_path') ,async (req, res) => {
     try {
          // ----------------  Validate data -------------------
         const {error} = buyerRegisterValidation(req.body);
@@ -42,7 +45,7 @@ router.post('/register', async (req, res) => {
                 let reg_query = `INSERT INTO Buyers (name, email, password, phone, address, city, status, gender, reason, image_path) 
                                  VALUES ('${req.body.name}', '${req.body.email}', '${req.body.password}', '${req.body.phone}',   
                                           '${req.body.address}', '${req.body.city}', '${status}', 
-                                          '${req.body.gender}','${reason}','${req.body.image_path}');`;
+                                          '${req.body.gender}','${reason}','${"https://e-market-rest-api.herokuapp.com/" + req.file.path}');`;
                 
                 connectDB.query(reg_query, (err, result) => {
                 if (err) return res.status(400).json({Success: 0, Error: err.message});
