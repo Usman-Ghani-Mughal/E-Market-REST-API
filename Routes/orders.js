@@ -85,7 +85,7 @@ router.post('/place', async (req, res) => {
                                             return res.status(200).json({
                                                 Success: 1,
                                                 message: "order created successfully",
-                                                product_id: result.insertId
+                                                order_id: result.insertId
                                             });
                                         }
                                     });
