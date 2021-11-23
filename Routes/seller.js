@@ -20,7 +20,6 @@ const upload = require("../Middleware/uploadimage");
 // Register Route
 router.post('/register', upload.single('image_path') ,async (req, res) => {
     try {
-        console.log(req.file);
          // ----------------  Validate data -------------------
         const {error} = sellerRegisterValidation(req.body);
         if (error) return res.status(400).json({Success: 0, Error: error.details[0].message});
