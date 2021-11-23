@@ -31,8 +31,11 @@ router.post('/register', upload.single('image_path') ,async (req, res) => {
                 let status = "ok";
                 let reason = "";
                 let description = req.body.description || "";
+                
                 // For today date.
-                var today_date = new Date();
+                var isoDateString = new Date().toISOString();
+                const isoDate = new Date(isoDateString);
+                const today_date = isoDate.toJSON().slice(0, 19).replace('T', ' ');
 
                  // // ----------------- Register Product ------------------
                 let reg_query = `INSERT INTO Products (name, type, price, quantity, description, seller_id, status, reason, publish_date, image_path) 
