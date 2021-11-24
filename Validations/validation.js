@@ -27,7 +27,7 @@ const sellerUpdateProfileValidation = (data) =>{
     const validateSellerschema = Joi.object().keys({
         seller_id: Joi.number().required(),
         name: Joi.string().min(5).max(255),
-        email: Joi.string().required(),
+        email: Joi.string(),
         password: Joi.string().min(8),
         shop_name: Joi.string().min(5).max(255),
         shop_type: Joi.string().min(5).max(255),
