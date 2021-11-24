@@ -192,7 +192,7 @@ router.post('/updateprofile',async (req, res) => {
         if (error) return res.status(400).json({Success: 0, Error: error.details[0].message});
 
         connectDB = connectionRequest();
-        // ----------------- Check if Seller already register -----------------
+        // ----------------- Check if Buyers already register -----------------
         let find_query = `SELECT * FROM Buyers WHERE id = '${req.body.buyer_id}';`;
 
         connectDB.query(find_query, async (err, result) => {
@@ -203,7 +203,7 @@ router.post('/updateprofile',async (req, res) => {
                 result = result[0];
                 let new_password = "";
                 if (req.body.password){
-                    // ----------------- Hash the password ------------------
+                    // ----------------- Hash the password if password is changing ------------------
                     const salt = await bcrypt.genSalt(parseInt(process.env.salt_number, 10));
                     const hashpassword = await bcrypt.hash(req.body.password, salt);
                     req.body.password = hashpassword;
