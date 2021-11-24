@@ -100,8 +100,6 @@ const buyerLoginValidation = (data) =>{
     return validatebuyerchema.validate(data);
 }
 
-
-
 // Seller Products Register Validation
 const sellerProductRegisterValidation = (data) =>{
     // set scheme
@@ -111,7 +109,26 @@ const sellerProductRegisterValidation = (data) =>{
         price : Joi.number().required(),
         quantity : Joi.number().required(),
         seller_id : Joi.number().required(),
-        image_path: Joi.string()
+        image_path: Joi.string(),
+        description: Joi.string()
+        });    
+    
+    return validateSellerschema.validate(data);
+}
+
+// Seller Products update 
+const sellerProductUpdateValidation = (data) =>{
+    // set scheme
+    const validateSellerschema = Joi.object().keys({
+        
+        seller_id: Joi.number().required(),
+        product_id: Joi.number().required(),
+        name: Joi.string().max(255),
+        type: Joi.string().max(255),
+        price : Joi.number(),
+        quantity : Joi.number(),
+        description: Joi.string()
+
         });    
     
     return validateSellerschema.validate(data);
@@ -145,6 +162,7 @@ const orderPlaceValidation = (data) =>{
  
 
  module.exports.sellerProductRegisterValidation = sellerProductRegisterValidation; 
+ module.exports.sellerProductUpdateValidation = sellerProductUpdateValidation; 
 
  module.exports.orderPlaceValidation = orderPlaceValidation; 
 

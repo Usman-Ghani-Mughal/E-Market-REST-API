@@ -3,6 +3,8 @@ const connectionRequest =  require('../config/database_config');
 
 // seller Product reg validation
 const {sellerProductRegisterValidation} = require('../Validations/validation');
+const {sellerProductUpdateValidation} = require('../Validations/validation');
+
 // for uploding files.
 const upload = require("../Middleware/uploadimage");
 // Register Route
@@ -91,5 +93,62 @@ router.get('/', (req, res) => {
     }
 });
 
+// update products route
+router.post('/updateproduct',async (req, res) => {
+    try {
+         // ----------------  Validate data -------------------
+        const {error} = sellerProductUpdateValidation(req.body);
+        if (error) return res.status(400).json({Success: 0, Error: error.details[0].message});
+
+        connectDB = connectionRequest();
+        // ----------------- Check if Products is present -----------------
+        let find_query = `SELECT * FROM Products WHERE id = '${req.body.product_id}' AND seller_id =  '${req.body.seller_id}';`;
+
+        connectDB.query(find_query, async (err, result) => {
+            if(err){
+                return res.status(400).json({Success: 0,Error: err.message});
+            }
+            else if(result.length !=0){
+                result = result[0];
+               
+                // update value in Products table
+                let update_query = `UPDATE Products SET name = '${req.body.name || result.name}',
+                                                        type = '${req.body.type || result.type}',
+                                                        price = '${req.body.price || result.price}',
+                                                        quantity = '${req.body.quantity || result.quantity}',
+                                                        description = '${req.body.description || result.description}',
+                                                        
+                                                        WHERE id = '${req.body.product_id}';`;
+
+                connectDB.query(update_query, (err, result) => {
+                    if (err){
+                        return res.status(400).json({Success: 0, Error: err.message});
+                    }
+                    else if(result.affectedRows == 0){
+                        return res.status(400).json({Success: 0, Error: "Something went wrong"});
+                    }
+                    else{
+                        return res.status(200).json({
+                            Success: 1,
+                            message: "updated successfully"
+                        });
+                    }
+                });
+                
+            }else{
+                return res.status(400).json({Success: 0,Error: "No Product Found"});
+            }
+            
+        });
+    } catch (err) {
+
+        res.status(400).json({
+            Success: 0,
+            Error: err.message,
+        });
+    }
+});
+
+module.exports = router;
 
 module.exports = router;
