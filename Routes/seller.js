@@ -253,7 +253,7 @@ router.post('/updateprofile',async (req, res) => {
                     req.body.password = hashpassword;
                     new_password = req.body.password;
                 }else{
-                    new_password = req.body.password;
+                    new_password = result.password;
                 }
                 // update value in Seller table
                 let update_query = `UPDATE Sellers SET  name = '${req.body.name || result.name}',
