@@ -71,6 +71,24 @@ const buyerRegisterValidation = (data) =>{
     return validateBuyerschema.validate(data);
 }
 
+// buyer update profile
+const buyerUpdateProfileValidation = (data) =>{
+    // set scheme for joi
+    const validateBuyerschema = Joi.object().keys({
+        buyer_id: Joi.number().required(),
+        name: Joi.string().min(5).max(255),
+        email: Joi.string(),
+        password: Joi.string().min(8),
+        city: Joi.string().min(3).max(255),
+        gender: Joi.string().min(3),
+        phone: Joi.string().min(10),
+        address: Joi.string(),
+        image_path: Joi.string(),
+        });    
+    
+    return validateBuyerschema.validate(data);
+}
+
 // buyer Login Validation
 const buyerLoginValidation = (data) =>{
     // set scheme for joi
@@ -123,6 +141,8 @@ const orderPlaceValidation = (data) =>{
 
  module.exports.buyerRegisterValidation = buyerRegisterValidation; 
  module.exports.buyerLoginValidation = buyerLoginValidation;
+ module.exports.buyerUpdateProfileValidation = buyerUpdateProfileValidation;
+ 
 
  module.exports.sellerProductRegisterValidation = sellerProductRegisterValidation; 
 
