@@ -211,8 +211,8 @@ router.post('/updateprofile',async (req, res) => {
                 }else{
                     new_password = result.password;
                 }
-                // update value in Seller table
-                let update_query = `UPDATE Sellers SET  name = '${req.body.name || result.name}',
+                // update value in Buyer table
+                let update_query = `UPDATE Buyers SET  name = '${req.body.name || result.name}',
                                                         email = '${req.body.email || result.email}',
                                                         password = '${new_password}',
                                                         city = '${req.body.city || result.city}',
