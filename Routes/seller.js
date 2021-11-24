@@ -4,14 +4,12 @@ const connectionRequest =  require('../config/database_config');
 //// seller reg and login validation
 const {sellerRegisterValidation} = require('../Validations/validation');
 const {sellerLoginValidation} = require('../Validations/validation');
-
 const bcrypt = require('bcryptjs');
 // const verifyToken = require('../Validation/verifyToken');
 //const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 const verifyToken = require('../Validations/verifyToken');
 dotenv.config();
-
 // for uploding files.
 const upload = require("../Middleware/uploadimage");
 
