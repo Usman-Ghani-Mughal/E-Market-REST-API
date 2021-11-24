@@ -4,6 +4,9 @@ const connectionRequest =  require('../config/database_config');
 //// seller reg and login validation
 const {sellerRegisterValidation} = require('../Validations/validation');
 const {sellerLoginValidation} = require('../Validations/validation');
+const {sellerUpdateProfileValidation} = require('../Validations/validation');
+
+
 const bcrypt = require('bcryptjs');
 // const verifyToken = require('../Validation/verifyToken');
 //const jwt = require('jsonwebtoken');
@@ -223,6 +226,79 @@ router.get('/orders', (req, res) => {
     }
     
 });
+
+
+// update profile route
+router.post('/updateprofile',async (req, res) => {
+    try {
+         // ----------------  Validate data -------------------
+        const {error} = sellerUpdateProfileValidation(req.body);
+        if (error) return res.status(400).json({Success: 0, Error: error.details[0].message});
+
+        connectDB = connectionRequest();
+        // ----------------- Check if Seller already register -----------------
+        let find_query = `SELECT * FROM Sellers WHERE id = '${req.body.seller_id}';`;
+
+        connectDB.query(find_query, async (err, result) => {
+            if(err){
+                return res.status(400).json({Success: 0,Error: err.message});
+            }
+            else if(result.length !=0){
+                result = result[0];
+                let new_password = "";
+                if (req.body.password){
+                    // ----------------- Hash the password ------------------
+                    const salt = await bcrypt.genSalt(parseInt(process.env.salt_number, 10));
+                    const hashpassword = await bcrypt.hash(req.body.password, salt);
+                    req.body.password = hashpassword;
+                    new_password = req.body.password;
+                }else{
+                    new_password = req.body.password;
+                }
+                // update value in Seller table
+                let update_query = `UPDATE Sellers SET  name = '${req.body.name || result.name}',
+                                                        email = '${req.body.email || result.email}',
+                                                        password = '${new_password}',
+                                                        shop_name = '${req.body.shop_name || result.shop_name}',
+                                                        shop_type = '${req.body.shop_type || result.shop_type}',
+                                                        city = '${req.body.city || result.city}',
+                                                        gender = '${req.body.gender || result.gender}',
+                                                        shop_details = '${req.body.shop_details || result.shop_details}',
+                                                        phone = '${req.body.phone || result.phone}',
+                                                        address = '${req.body.address || result.address}',
+                                                        image_path = '${result.image_path}'
+
+                                                        WHERE id = '${req.body.seller_id}';`;
+
+                connectDB.query(update_query, (err, result) => {
+                    if (err){
+                        return res.status(400).json({Success: 0, Error: err.message});
+                    }
+                    else if(result.affectedRows == 0){
+                        return res.status(400).json({Success: 0, Error: "Something went wrong"});
+                    }
+                    else{
+                        return res.status(200).json({
+                            Success: 1,
+                            message: "updated successfully"
+                        });
+                    }
+                });
+                
+            }else{
+                return res.status(400).json({Success: 0,Error: "No Seller Found"});
+            }
+            
+        });
+    } catch (err) {
+
+        res.status(400).json({
+            Success: 0,
+            Error: err.message,
+        });
+    }
+});
+
 
 module.exports = router;
 

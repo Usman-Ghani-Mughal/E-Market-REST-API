@@ -3,10 +3,8 @@ const connectionRequest =  require('../config/database_config');
 
 // seller Product reg validation
 const {sellerProductRegisterValidation} = require('../Validations/validation');
-
 // for uploding files.
 const upload = require("../Middleware/uploadimage");
-
 // Register Route
 router.post('/register', upload.single('image_path') ,async (req, res) => {
     try {
