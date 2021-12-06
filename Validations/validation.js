@@ -5,7 +5,7 @@ const Joi = require('@hapi/joi');
 const sellerRegisterValidation = (data) =>{
     // set scheme for joi
     const validateSellerschema = Joi.object().keys({
-        cnic: Joi.string().min(13).max(13).required(),
+        cnic: Joi.string().min(15).max(15).required(),
         name: Joi.string().min(5).max(255).required(),
         email: Joi.string().required().email(),
         password: Joi.string().min(8).required(),
