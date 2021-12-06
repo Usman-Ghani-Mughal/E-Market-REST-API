@@ -200,7 +200,7 @@ router.get('/products', (req, res) => {
 
 });
 
-
+// get orders placed for particular seller id
 router.get('/orders', (req, res) => {
     try{
 
