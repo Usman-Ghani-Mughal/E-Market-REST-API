@@ -44,10 +44,10 @@ router.post('/register', upload.single('image_path') ,async (req, res) => {
 
                 let status = "ok";
                 let reason = "";
-
+                console.log(req.body.cnic);
                  // // ----------------- Register seller ------------------
                 let reg_query = `INSERT INTO Sellers (CNIC, name, email, password, phone, shop_name, shop_type, shop_details, address, city, gender, image_path, status, reason) 
-                                VALUES ('${req.body.cnic}', '${req.body.name}', '${req.body.email}', '${req.body.password}', '${req.body.phone}', 
+                                VALUES ( '${req.body.cnic}', '${req.body.name}', '${req.body.email}', '${req.body.password}', '${req.body.phone}', 
                                         '${req.body.shop_name}', '${req.body.shop_type}', '${req.body.shop_details}', 
                                         '${req.body.address}', '${req.body.city}', '${req.body.gender}', '${"https://e-market-rest-api.herokuapp.com/" + req.file.path}', 
                                         '${status}', '${reason}'); `;
