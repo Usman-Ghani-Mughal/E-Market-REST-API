@@ -118,7 +118,7 @@ router.post('/updateproduct',async (req, res) => {
                                                         quantity = '${req.body.quantity || result.quantity}',
                                                         description = '${req.body.description || result.description}'
                                                         
-                                                        WHERE id = '${req.body.product_id}' ;`;
+                                                        WHERE id = '${req.body.product_id}';`;
 
                 connectDB.query(update_query, (err, result) => {
                     if (err){

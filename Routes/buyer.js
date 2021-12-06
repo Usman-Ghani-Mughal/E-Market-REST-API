@@ -31,7 +31,7 @@ router.post('/register', upload.single('image_path') ,async (req, res) => {
 
             else if(result.length != 0)
             {
-                return res.status(200).json({Success: 0,Error: "Username or Email Already Exists"});
+                return res.status(400).json({Success: 0,Error: "Username or Email Already Exists"});
             } 
             else
             {
@@ -65,7 +65,7 @@ router.post('/register', upload.single('image_path') ,async (req, res) => {
 
     } catch (err) {
 
-        res.status(500).json({
+        res.status(400).json({
             Success: 0,
             Error: err.message,
         });
@@ -110,7 +110,7 @@ router.post('/login', async  (req, res) => {
 
     }catch(err)
     {
-        res.status(500).json({
+        res.status(400).json({
             Success: 0,
             Error: err.message,
         });
@@ -150,7 +150,7 @@ router.get('/profile', (req, res) => {
 
     }catch(err)
     {
-        res.status(500).json({
+        res.status(400).json({
             Success: 0,
             Error: err.message,
         });
@@ -176,7 +176,7 @@ router.get('/orders', (req, res) => {
     }
     catch(err)
     {
-        res.status(500).json({
+        res.status(400).json({
             Success: 0,
             Error: err.message,
         });
@@ -218,8 +218,7 @@ router.post('/updateprofile',async (req, res) => {
                                                         city = '${req.body.city || result.city}',
                                                         gender = '${req.body.gender || result.gender}',
                                                         phone = '${req.body.phone || result.phone}',
-                                                        address = '${req.body.address || result.address}',
-                                                        image_path = '${result.image_path}'
+                                                        address = '${req.body.address || result.address}'
 
                                                         WHERE id = '${req.body.buyer_id}';`;
 
