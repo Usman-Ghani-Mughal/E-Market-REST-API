@@ -52,7 +52,7 @@ router.post('/register', upload.single('image_path') ,async (req, res) => {
                                         '${req.body.address}', '${req.body.city}', '${req.body.gender}', '${"https://e-market-rest-api.herokuapp.com/" + req.file.path}', 
                                         '${status}', '${reason}'); `;
                 
-                console.warn(reg_query);
+                console.log(reg_query);
                 connectDB.query(reg_query, (err, result) => {
                     if (err)
                     {
