@@ -149,6 +149,28 @@ router.post('/updateproduct',async (req, res) => {
     }
 });
 
+
+// update products route
+router.post('/deleteproduct',async (req, res) => {
+    try{
+        connectDB = connectionRequest();
+        // let find_query = `SELECT * FROM Products WHERE id = '${req.query.id}';`;
+        let del_query = `DELETE FROM Products WHERE id = '${req.query.id}';`;
+
+        connectDB.query(del_query, (err, result) => {
+            if (err) return res.status(400).json({Success: 0,Error: err.message});
+            else return res.status(200).json({Success:1, data: result});
+        } );
+
+    }catch(err)
+    {
+        res.status(400).json({
+            Success: 0,
+            Error: err.message,
+        });
+    }
+});
+
 module.exports = router;
 
 module.exports = router;
