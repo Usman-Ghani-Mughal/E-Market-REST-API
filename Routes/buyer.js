@@ -162,7 +162,12 @@ router.get('/profile', (req, res) => {
 
 router.get('/orders', (req, res) => {
     try{
-        let find_query = `SELECT * FROM Orders WHERE buyer_id = '${req.query.id}';`;
+        //let find_query = `SELECT * FROM Orders WHERE buyer_id = '${req.query.id}';`;
+         
+        let find_query = `SELECT Products.name, Products.type, Orders.quantity, Orders.order_description, Orders.order_date, Orders.id, Orders.status, Orders.amount
+                          FROM Orders
+                          JOIN Products ON Orders.product_id=Products.id
+                          WHERE buyer_id = '${req.query.id}';`;
         connectDB = connectionRequest();
         connectDB.query(find_query, (err, result) => {
             if (err) return res.status(400).json({Success: 0,Error: err.message});
