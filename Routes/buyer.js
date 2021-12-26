@@ -44,7 +44,7 @@ router.post('/register', upload.single('image_path') ,async (req, res) => {
                 const file = req.file
                 const result_aws = await uploadFile(file);
                 await unlinkFile(file.path);
-                let file_link = `/images/get?key=${result_aws.key}`;
+                let file_link = `https://e-market-rest-api.herokuapp.com/images/get?key=${result_aws.key}`;
 
                 // ----------------- Hash the password ------------------
                 const salt = await bcrypt.genSalt(parseInt(process.env.salt_number, 10));

@@ -105,6 +105,32 @@ router.get('/', (req, res) => {
     }
 });
 
+router.get('/type', (req, res) => {
+    try{
+        //let find_query = `SELECT * FROM Orders WHERE buyer_id = '${req.query.id}';`;
+         
+        let find_query = `SELECT * FROM Products WHERE type = '${req.query.type}';`;
+
+        connectDB = connectionRequest();
+        connectDB.query(find_query, (err, result) => {
+            if (err) return res.status(400).json({Success: 0,Error: err.message});
+
+            else if(result.length > 0){
+            return res.status(200).json({Success:1, data: result});
+            }       
+
+            else{ res.status(400).json({Success: 0,Error: "no product found"});}
+        } );
+    }
+    catch(err)
+    {
+        res.status(400).json({
+            Success: 0,
+            Error: err.message,
+        });
+    }
+});
+
 // update products route
 router.post('/updateproduct',async (req, res) => {
     try {
