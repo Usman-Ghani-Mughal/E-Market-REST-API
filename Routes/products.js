@@ -37,7 +37,7 @@ router.post('/register', upload.single('image_path') ,async (req, res) => {
                 const file = req.file;
                 const result_aws = await uploadFile(file);
                 await unlinkFile(file.path);
-                let file_link = `/images/get/${result_aws.key}`;
+                let file_link = `/images/get?key=${result_aws.key}`;
 
                 let status = "ok";
                 let reason = "";
