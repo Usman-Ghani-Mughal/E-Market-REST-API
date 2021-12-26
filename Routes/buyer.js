@@ -15,6 +15,11 @@ dotenv.config();
 
 // for uploding files.
 const upload = require("../Middleware/uploadimage");
+const { uploadFile, getFileStream } = require('../Middleware/up_down_image_s3');
+// deleting files
+const fs = require('fs');
+const util = require('util');
+const unlinkFile = util.promisify(fs.unlink);
 
 // Register Route
 router.post('/register', upload.single('image_path') ,async (req, res) => {
@@ -35,6 +40,12 @@ router.post('/register', upload.single('image_path') ,async (req, res) => {
             } 
             else
             {
+                // upload image to s3
+                const file = req.file
+                const result_aws = await uploadFile(file);
+                await unlinkFile(file.path);
+                let file_link = result_aws.Location;
+
                 // ----------------- Hash the password ------------------
                 const salt = await bcrypt.genSalt(parseInt(process.env.salt_number, 10));
                 const hashpassword = await bcrypt.hash(req.body.password, salt);
@@ -46,7 +57,7 @@ router.post('/register', upload.single('image_path') ,async (req, res) => {
                 let reg_query = `INSERT INTO Buyers (name, email, password, phone, address, city, status, gender, reason, image_path) 
                                  VALUES ('${req.body.name}', '${req.body.email}', '${req.body.password}', '${req.body.phone}',   
                                           '${req.body.address}', '${req.body.city}', '${status}', 
-                                          '${req.body.gender}','${reason}','${"https://e-market-rest-api.herokuapp.com/" + req.file.path}');`;
+                                          '${req.body.gender}','${reason}','${file_link}');`;
                 
                 connectDB.query(reg_query, (err, result) => {
                 if (err) return res.status(400).json({Success: 0, Error: err.message});

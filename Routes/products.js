@@ -7,6 +7,12 @@ const {sellerProductUpdateValidation} = require('../Validations/validation');
 
 // for uploding files.
 const upload = require("../Middleware/uploadimage");
+const { uploadFile, getFileStream } = require('../Middleware/up_down_image_s3');
+// deleting files
+const fs = require('fs');
+const util = require('util');
+const unlinkFile = util.promisify(fs.unlink);
+
 // Register Route
 router.post('/register', upload.single('image_path') ,async (req, res) => {
     try {
@@ -26,6 +32,12 @@ router.post('/register', upload.single('image_path') ,async (req, res) => {
                 return res.status(400).json({Success: 0, Error: "Product Already Exists"});
             }
             else{
+                
+                // upload image to s3
+                const file = req.file;
+                const result_aws = await uploadFile(file);
+                await unlinkFile(file.path);
+                let file_link = result_aws.Location;
 
                 let status = "ok";
                 let reason = "";
@@ -39,7 +51,7 @@ router.post('/register', upload.single('image_path') ,async (req, res) => {
                  // // ----------------- Register Product ------------------
                 let reg_query = `INSERT INTO Products (name, type, price, quantity, description, seller_id, status, reason, publish_date, image_path) 
                                 VALUES ( '${req.body.name}', '${req.body.type}', '${req.body.price}', '${req.body.quantity}', '${description}', 
-                                         '${req.body.seller_id}', '${status}', '${reason}', '${today_date}', '${"https://e-market-rest-api.herokuapp.com/" + req.file.path}' ); `;
+                                         '${req.body.seller_id}', '${status}', '${reason}', '${today_date}', '${file_link}' ); `;
 
                 connectDB.query(reg_query, (err, result) => {
                     if (err)
