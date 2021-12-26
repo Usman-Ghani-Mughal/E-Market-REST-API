@@ -28,6 +28,7 @@ const seller = require('./Routes/seller');
 const buyer = require('./Routes/buyer');
 const product = require('./Routes/products');
 const order = require('./Routes/orders');
+const image = require('./Routes/images') ;
 
 
 // Middleware (body parser for json)
@@ -41,6 +42,7 @@ app.use('/seller', seller);
 app.use('/buyer', buyer);
 app.use('/product', product);
 app.use('/order', order);
+app.use('/images', image);
 
 
 var server_port = process.env.MY_PORT || process.env.PORT || 3279;
